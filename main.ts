@@ -5,6 +5,8 @@ import * as WebSocket from "ws";
 import {AddressInfo} from "ws";
 import Uuid = types.Uuid;
 
+const SCYLLADB_URL = process.env.SCYLLADB_URL || "localhost";
+
 const app = express();
 const route = express.Router();
 
@@ -61,7 +63,7 @@ route.post("/api/insert", async (req, res) => {
     data.id = Uuid.random();
 
     const client = new cassandra.Client({
-        contactPoints: ["localhost:9042"],
+        contactPoints: [`${SCYLLADB_URL}:9042`],
         localDataCenter: "datacenter1",
         keyspace: 'local'
     });
@@ -88,7 +90,7 @@ route.post("/api/delete", async (req, res) => {
     id = Uuid.fromString(id as string);
 
     const client = new cassandra.Client({
-        contactPoints: ["localhost:9042"],
+        contactPoints: [`${SCYLLADB_URL}:9042`],
         localDataCenter: "datacenter1",
         keyspace: 'local'
     });
@@ -125,7 +127,7 @@ route.post("/api/update", async (req, res) => {
     data.id = Uuid.fromString(data.id as string);
 
     const client = new cassandra.Client({
-        contactPoints: ["localhost:9042"],
+        contactPoints: [`${SCYLLADB_URL}:9042`],
         localDataCenter: "datacenter1",
         keyspace: 'local'
     });
@@ -158,7 +160,7 @@ route.post("/api/update", async (req, res) => {
 
 route.get("/api/getAll", async (req, res) => {
     const client = new cassandra.Client({
-        contactPoints: ["localhost:9042"],
+        contactPoints: [`${SCYLLADB_URL}:9042`],
         localDataCenter: "datacenter1",
         keyspace: 'local'
     });
